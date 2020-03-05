@@ -1,0 +1,8 @@
+.DS_Store
+composer.lock
+vendor
+env
+.cache
+secret.php
+src/*
+tests/*
