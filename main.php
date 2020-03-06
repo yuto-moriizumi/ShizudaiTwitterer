@@ -37,7 +37,8 @@ $candidates =array_diff(array_keys($json['users']),$follows);
 </head>
 <body>
     <h1>自動フォローページ</h1>
-    <p>あなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
+    <p>このシステムに登録されている静大生ツイッタラーは<?=count($json['users'])?>人です</p>
+    <p>そのうち、あなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
 
 
 <?php
@@ -47,6 +48,10 @@ foreach ($candidates as $user){
         'user_id'=>$user,
     ]);
     if(isset($result->errors)){
+        if($result->errors[0]->code===158) {//自分自身をフォローしてエラーだった場合は処理を継続
+            echo '<p>ハッシュタグ利用者リストに自分自身が含まれていました</p>';
+            continue;
+        }
         echo '<p>処理中にフォロー上限に達しました。時間を空けてから再度アクセスしてください。</p>';
         break;
     }
