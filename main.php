@@ -27,6 +27,10 @@ $json = json_decode($json,true);
 
 $candidates =array_diff(array_keys($json['users']),$follows);
 
+//ブロックしているユーザをフォロー候補から除外する
+$blocks=$connection->get('blocks/ids',[])->ids;
+$candidates =array_diff($candidates,$blocks);
+
 ?>
 <!DOCTYPE html>
 <html lang="jp">
