@@ -48,17 +48,17 @@ foreach ($candidates as $user){
         'user_id'=>$user,
     ]);
     if(isset($result->errors)){
-        if($result->errors[0]->code===158) {//自分自身をフォローしてエラーだった場合は処理を継続
-            echo '<p>ハッシュタグ利用者リストに自分自身が含まれていました</p>';
+        if($result->errors[0]->code!==161) { //フォロー制限でないエラーならば
+            echo '<p>エラーが発生しました：<br>';
+            var_dump($result->errors);
+            echo '</p>';
             continue;
         }
-        echo '<p>処理中にフォロー上限に達しました。時間を空けてから再度アクセスしてください。</p>';
-        echo '<p>エラー内容';
-        var_dump($result->errors);
-        echo '</p>';
+        echo '<p>処理中にフォロー上限に達しました。時間を空けてから再度アクセスしてください。</p>';        
         break;
     }
     $ans++;
+    usleep(10);
 }
 echo '<p>処理が終了しました。</p><p>フォローした数：'.$ans.'</p>';
 ?>
