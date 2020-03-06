@@ -53,6 +53,9 @@ foreach ($candidates as $user){
             continue;
         }
         echo '<p>処理中にフォロー上限に達しました。時間を空けてから再度アクセスしてください。</p>';
+        echo '<p>エラー内容';
+        var_dump($result->errors);
+        echo '</p>';
         break;
     }
     $ans++;
