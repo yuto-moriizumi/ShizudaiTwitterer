@@ -29,7 +29,7 @@ $candidates =array_diff(array_keys($json['users']),$follows);
 
 //ブロックしているユーザをフォロー候補から除外する
 $blocks=$connection->get('blocks/ids',[])->ids;
-$candidates =array_diff($candidates,$blocks);
+$candidates2 =array_diff($candidates,$blocks);
 
 ?>
 <!DOCTYPE html>
@@ -43,11 +43,12 @@ $candidates =array_diff($candidates,$blocks);
     <h1>自動フォローページ</h1>
     <p>このシステムに登録されている静大生ツイッタラーは<?=count($json['users'])?>人です</p>
     <p>そのうち、あなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
+    <p>ブロックしているユーザを除外した結果、フォロー候補は<?=count($candidates2)?>人でした</p>
 
 
 <?php
 $ans=0;
-foreach ($candidates as $user){
+foreach ($candidates2 as $user){
     $result=$connection->post('friendships/create',[
         'user_id'=>$user,
     ]);
