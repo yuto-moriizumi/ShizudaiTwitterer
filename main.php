@@ -31,6 +31,10 @@ $candidates =array_diff(array_keys($json['users']),$follows);
 $blocks=$connection->get('blocks/ids',[])->ids;
 $candidates2 =array_diff($candidates,$blocks);
 
+//除外リストに指定されたユーザを除外する
+$exclusives=explode(',',$_SESSION['exclusive']);
+$candidates2 =array_diff($candidates2,$exclusives);
+
 ?>
 <!DOCTYPE html>
 <html lang="jp">
@@ -43,11 +47,12 @@ $candidates2 =array_diff($candidates,$blocks);
     <h1>自動フォローページ</h1>
     <p>このシステムに登録されている静大生ツイッタラーは<?=count($json['users'])?>人です</p>
     <p>そのうち、あなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
-    <p>ブロックしているユーザを除外した結果、フォロー候補は<?=count($candidates2)?>人でした</p>
+    <p>ブロックしているユーザや除外リストのユーザを除外した結果、フォロー候補は<?=count($candidates2)?>人でした</p>
 
 
 <?php
 $ans=0;
+$failedUserIds=[];
 foreach ($candidates2 as $user){
     $result=$connection->post('friendships/create',[
         'user_id'=>$user,
@@ -57,15 +62,17 @@ foreach ($candidates2 as $user){
             echo '<p>エラーが発生しました：<br>';
             var_dump($result->errors);
             echo '</p>';
+            array_push($failedUserIds,$user);
             continue;
         }
         echo '<p>処理中にフォロー上限に達しました。時間を空けてから再度アクセスしてください。</p>';        
         break;
     }
     $ans++;
-    usleep(10);
+    usleep(100);
 }
 echo '<p>処理が終了しました。</p><p>フォローした数：'.$ans.'</p>';
+echo '<p>フォローに失敗したユーザ：'.implode($failedUserIds,',').'</p>';
 ?>
 </body>
 </html>

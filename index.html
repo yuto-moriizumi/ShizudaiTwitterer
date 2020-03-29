@@ -24,7 +24,12 @@
       <h2>使い方</h2>
       <ol>
         <li>
-          <a href="./auth.php">ここ</a>をクリックしてアプリにログインします
+          <p>以下の「送信」をクリックしてアプリにログインします</p>
+          <form action="./auth.php" method="get">
+            <label for="exclusive">除外リスト（,で区切って入力）</label>
+            <input type="text" name="exclusive" />
+            <input type="submit" value="送信" />
+          </form>
         </li>
         <li>
           まだフォローしてない人を自動でフォローします
