@@ -6,3 +6,4 @@ env
 secret.php
 src/*
 tests/*
+.vs
