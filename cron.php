@@ -15,6 +15,8 @@ $result=$connection->get('search/tweets',[
     'q'=>'#春から静大',
     'since_id'=>$json['lastId'],
     'count'=>100,
+    'result_type'=>'recent',
+    'include_entities'=>false
     ]);
 
 $json['lastId']=$result->search_metadata->max_id_str;

@@ -22,6 +22,8 @@ $url = $connection->url(
 
 //移行前アカウント名をセット
 $_SESSION['exclusive']=$_REQUEST['exclusive']; 
+$_SESSION['dateLeft']=$_REQUEST['dateLeft']; 
+$_SESSION['dateRight']=$_REQUEST['dateRight']; 
 
 //Twitter.com の認証画面へリダイレクト
 header( 'location: '. $url );

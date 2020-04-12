@@ -15,7 +15,7 @@
         この装置は、1時間ごとにハッシュタグ利用者をリストとして保存しています。<br />
         そして、以下の手順に従ってログインすると、新入生たちをフォローすることができます。
       </p>
-      <p style="color: #ff0000">
+      <p style="color: #ff0000;">
         <strong
           >注意！：フォローしすぎてアカウントがロックされる場合があります。
           短時間に何回も使わない様にしましょう。</strong
@@ -25,9 +25,17 @@
       <ol>
         <li>
           <p>以下の「送信」をクリックしてアプリにログインします</p>
-          <form action="./auth.php" method="get">
+          <form
+            action="./auth.php"
+            method="get"
+            style="display: flex; flex-direction: column; max-width: 250px;"
+          >
             <label for="exclusive">除外リスト（,で区切って入力）</label>
             <input type="text" name="exclusive" />
+            <label for="date">左端日付（端点を含む）</label>
+            <input type="date" name="dateLeft" />
+            <label for="date">右端日付（端点を含まない）</label>
+            <input type="date" name="dateRight" />
             <input type="submit" value="送信" />
           </form>
         </li>

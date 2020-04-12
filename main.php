@@ -25,7 +25,13 @@ $json = file_get_contents('./search.json');
 $json=mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
 $json = json_decode($json,true);
 
-$candidates =array_diff(array_keys($json['users']),$follows);
+$afterThisDate=strtotime($_SESSION['dateLeft']);
+$beforeThisDate=strtotime($_SESSION['dateRight']);
+
+$after=array_filter($json['users'],function ($user){
+    return $afterThisDate<=$user['tweetDate'] && $user['tweetDate']<$beforeThisDate;
+});
+$candidates =array_diff(array_keys($after),$follows);
 
 //ブロックしているユーザをフォロー候補から除外する
 $blocks=$connection->get('blocks/ids',[])->ids;
@@ -46,9 +52,8 @@ $candidates2 =array_diff($candidates2,$exclusives);
 <body>
     <h1>自動フォローページ</h1>
     <p>このシステムに登録されている静大生ツイッタラーは<?=count($json['users'])?>人です</p>
-    <p>そのうち、あなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
+    <p>そのうち、指定された日付以降であなたがまだフォローしていない人は<?=count($candidates)?>人でした</p>
     <p>ブロックしているユーザや除外リストのユーザを除外した結果、フォロー候補は<?=count($candidates2)?>人でした</p>
-
 
 <?php
 $ans=0;
