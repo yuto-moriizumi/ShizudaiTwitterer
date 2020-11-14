@@ -5,9 +5,10 @@ session_start();
 require_once './secret.php';
 require_once './autoload.php';
 use Abraham\TwitterOAuth\TwitterOAuth;
-//TwitterOAuth をインスタンス化 
+
+//TwitterOAuth をインスタンス化
 $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
-//コールバックURLセット 
+//コールバックURLセット
 $request_token = $connection->oauth('oauth/request_token', array('oauth_callback' => callbackUrl));
 
 //callback.phpで使うのでセッションに入れる
@@ -21,9 +22,9 @@ $url = $connection->url(
 );
 
 //移行前アカウント名をセット
-$_SESSION['exclusive']=$_REQUEST['exclusive']; 
-$_SESSION['dateLeft']=$_REQUEST['dateLeft']; 
-$_SESSION['dateRight']=$_REQUEST['dateRight']; 
+$_SESSION['exclusive']=$_REQUEST['exclusive'];
+$_SESSION['dateLeft']=$_REQUEST['dateLeft'];
+$_SESSION['dateRight']=$_REQUEST['dateRight'];
 
 //Twitter.com の認証画面へリダイレクト
-header( 'location: '. $url );
+header('location: '. $url);
